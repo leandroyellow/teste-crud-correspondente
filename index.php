@@ -49,7 +49,7 @@ if(isset($_SESSION['mensagem'])){
    <?php endforeach; ?>
 </table>
 
-<button id="alerta">teste</button>
+
 
 </div>
 
