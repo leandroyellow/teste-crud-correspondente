@@ -14,15 +14,47 @@
 <body>
 
 <button id="click">teste</button>
-
+<a href="https://www.google.com" onClick="enviaDivida(event)">google</a>
 <script>
-   $('#click').on('click',function(){
-      Swal.fire(
-      'Good job!',
-      'You clicked the button!',
+   function enviaDivida(e){
+   e.preventDefault();
+
+    const swalWithBootstrapButtons = Swal.mixin({
+    customClass: {
+    confirmButton: 'btn btn-success',
+    cancelButton: 'btn btn-danger'
+  },
+  buttonsStyling: false
+})
+
+swalWithBootstrapButtons.fire({
+  title: 'Deseja realmente enviar os dados para a Central da Cobrar Simples?',
+  text: "Atenção os dados serão enviados imediatamente!",
+  type: 'warning',
+  showCancelButton: true,
+  confirmButtonText: 'Sim, enviar dados da dívida!',
+  cancelButtonText: 'Não, cancelar!',
+  reverseButtons: true
+}).then((result) => {
+  if (result.value) {
+    swalWithBootstrapButtons.fire(
+      'Cancelar!',
+      'Your file has been deleted.',
       'success'
-      )  
-   })
+    )
+    location.href = e.target.href;
+  } else if (
+    /* Read more about handling dismissals below */
+    result.dismiss === Swal.DismissReason.cancel
+  ) {
+    swalWithBootstrapButtons.fire(
+      'Processo Cancelado',
+      'Nada ocorreu',
+      'info'
+    )
+  }
+})
+}
    
    
 </script>

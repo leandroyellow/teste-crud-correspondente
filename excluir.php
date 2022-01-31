@@ -9,7 +9,7 @@ $id = filter_input(INPUT_GET, 'id');
 if($id){
    
 
-   //$correspondencia->delete($id);
+   $correspondencia->delete($id);
 }
 
 header("Location: index.php");

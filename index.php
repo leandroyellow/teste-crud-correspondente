@@ -42,7 +42,7 @@ if(isset($_SESSION['mensagem'])){
       <td><?=$cors->getUsuario();?></td>
       <td>
          <a href="editar.php?id=<?=$cors->getId();?>" class="btn btn-primary btn-sm">Atualizar</a>
-         <a id="alerta" href="excluir.php?id=<?=$cors->getId();?>" class="btn btn-danger btn-sm">Excluir</a>
+         <a onclick="alertaMensagem(event)" href="excluir.php?id=<?=$cors->getId();?>" class="btn btn-danger btn-sm">Excluir</a>
          
       </td>
    </tr>
@@ -58,14 +58,45 @@ if(isset($_SESSION['mensagem'])){
 </footer>
 
 <script>
-   $('#alerta').on('click',function(){
-      Swal.fire(
-      'Good job!',
-      'You clicked the button!',
-      'success'
-      )  
-   })
-   
+   function alertaMensagem(e){
+      e.preventDefault();
+
+      const swalWithBootstrapButtons = Swal.mixin({
+         customClass: {
+            confirmButton: 'btn btn-success',
+            cancelButton: 'btn btn-danger'
+         },
+         buttonsStyling: false
+      })
+
+      swalWithBootstrapButtons.fire({
+         title: 'Deseja realmente excluir dados de correspondência?',
+         text: "Atenção os dados serão excluidos imediatamente",
+         icon: 'warning',
+         showCancelButton: true,
+         confirmButtonText: 'Sim, excluir!',
+         cancelButtonText: 'Não, cancelar!',
+         reverseButtons: true
+      }).then((result) => {
+         if(result.isConfirmed){
+            swalWithBootstrapButtons.fire(
+               'Excluido!',
+               'Registro de correspondência foi excluido.',
+               'success'
+            )
+            location.href = e.target.href;
+         }else if(
+            /* Read more about handling dismissals below */
+            result.dismiss === Swal.DismissReason.cancel
+         ) {
+            swalWithBootstrapButtons.fire(
+               'Processo cancelado',
+               'Nada ocorreu',
+               'info'
+            )
+         }
+      })
+   }
    
 </script>
 
